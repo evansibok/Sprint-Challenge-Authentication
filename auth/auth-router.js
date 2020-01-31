@@ -1,8 +1,25 @@
+require('dotenv').config();
+
 const router = require('express').Router();
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 
-const UsersDb = require('../users/users-model');
 const validateUser = require('../middlewares/validateUser');
+const UsersDb = require('../users/users-model');
+
+function makeToken(user) {
+  const payload = {
+    sub: user.id,
+    username: user.username, // Optional but could be useful for frontend
+  };
+
+  const options = {
+    expiresIn: '1d',
+  };
+
+  const token = jwt.sign(payload, process.env.JWT_SECRET, options);
+  return token;
+}
 
 router.post('/register', validateUser, (req, res) => {
   // implement registration
@@ -28,9 +45,9 @@ router.post('/login', validateUser, (req, res) => {
   UsersDb.findBy({ username })
     .then(user => {
       if (user && bcrypt.compareSync(password, user.password)) {
-        res.status(200).json({ 
+        res.status(200).json({
           message: `Welcome ${user.username}!`,
-         });
+        });
       } else {
         res.status(404).json({
           message: "You shall not pass!"
