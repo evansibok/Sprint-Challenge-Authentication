@@ -8,12 +8,15 @@ function addUser(user) {
   return db('users').insert(user);
 }
 
-function findById(id) {
-  return db('users').where({ id }).first();
+function findBy(filter) {
+  return db('users')
+    .where(filter)
+    .first();
+    
 }
 
 module.exports = {
   getUsers,
   addUser,
-  findById,
+  findBy,
 }

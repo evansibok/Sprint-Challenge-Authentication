@@ -19,12 +19,30 @@ router.post('/register', validateUser, (req, res) => {
         stack: err.stack,
       })
     });
-
 });
 
 router.post('/login', validateUser, (req, res) => {
   // implement login
-  let 
+  const { username, password } = req.body;
+
+  UsersDb.findBy({ username })
+    .then(user => {
+      if (user && bcrypt.compareSync(password, user.password)) {
+        res.status(200).json({ 
+          message: `Welcome ${user.username}!`,
+         });
+      } else {
+        res.status(404).json({
+          message: "You shall not pass!"
+        })
+      }
+    })
+    .catch(err => {
+      res.status(500).json({
+        errorMessage: err.message,
+        stack: err.stack,
+      })
+    });
 });
 
 
