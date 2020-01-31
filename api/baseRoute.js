@@ -10,7 +10,7 @@ router.use('/jokes', authenticate, jokesRouter);
 router.use('/users', authenticate, usersRouter);
 
 router.get('/', (req, res) => {
-  res.json('API is live!')
+  res.json({ api: 'up' })
 })
 
 module.exports = router;
