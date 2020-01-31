@@ -2,8 +2,9 @@ const router = require('express').Router();
 const bcrypt = require('bcryptjs');
 
 const UsersDb = require('../users/users-model');
+const validateUser = require('../middlewares/validateUser');
 
-router.post('/register', (req, res) => {
+router.post('/register', validateUser, (req, res) => {
   // implement registration
   let { username, password } = req.body;
   const hash = bcrypt.hashSync(password, 10);
@@ -21,8 +22,11 @@ router.post('/register', (req, res) => {
 
 });
 
-router.post('/login', (req, res) => {
+router.post('/login', validateUser, (req, res) => {
   // implement login
+  let 
 });
+
+
 
 module.exports = router;
