@@ -23,7 +23,7 @@ function makeToken(user) {
 
 router.post('/register', validateUser, (req, res) => {
   // implement registration
-  let { username, password } = req.body;
+  const { username, password } = req.body;
   const hash = bcrypt.hashSync(password, 10);
 
   UsersDb.addUser({ username, password: hash })
